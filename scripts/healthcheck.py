@@ -9,6 +9,7 @@ import httpx
 from services import storage
 from services.config import get_settings
 from services.logging import logger
+from services.notify import gmail as gmail_client
 
 
 async def check_rss_sources() -> tuple[int, int]:
@@ -43,28 +44,24 @@ async def check_telegram() -> bool:
     return resp.status_code == 200
 
 
-async def check_whatsapp() -> bool:
+async def check_gmail() -> bool:
     settings = get_settings()
-    if not settings.whatsapp_token or not settings.whatsapp_phone_number_id:
-        logger.warning("WhatsApp credentials not set")
+    if not settings.gmail_address or not settings.gmail_app_password:
+        logger.warning("Gmail credentials not set")
         return False
-    url = f"https://graph.facebook.com/v21.0/{settings.whatsapp_phone_number_id}"
-    headers = {"Authorization": f"Bearer {settings.whatsapp_token}"}
-    async with httpx.AsyncClient(timeout=10) as client:
-        resp = await client.get(url, headers=headers)
-    return resp.status_code == 200
+    return await gmail_client.verify_login()
 
 
 async def main() -> None:
     ok_sources, total_sources = await check_rss_sources()
     telegram_ok = await check_telegram()
-    whatsapp_ok = await check_whatsapp()
+    gmail_ok = await check_gmail()
 
     logger.info(f"RSS sources reachable: {ok_sources}/{total_sources}")
     logger.info(f"Telegram: {'ok' if telegram_ok else 'FAILED'}")
-    logger.info(f"WhatsApp: {'ok' if whatsapp_ok else 'FAILED'}")
+    logger.info(f"Gmail: {'ok' if gmail_ok else 'FAILED'}")
 
-    critical_failure = not telegram_ok or not whatsapp_ok
+    critical_failure = not telegram_ok or not gmail_ok
     widespread_source_outage = total_sources > 0 and ok_sources < total_sources / 2
 
     if critical_failure or widespread_source_outage:

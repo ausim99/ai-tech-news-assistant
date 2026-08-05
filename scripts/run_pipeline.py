@@ -7,12 +7,12 @@ import sys
 from datetime import UTC, datetime
 
 from agents import digest as digest_agent
+from agents import gmail as gmail_agent
 from agents import research as research_agent
 from agents import telegram as telegram_agent
 from agents import translator as translator_agent
 from agents import trend as trend_agent
 from agents import tutorial as tutorial_agent
-from agents import whatsapp as whatsapp_agent
 from services import storage
 from services.logging import logger
 
@@ -55,7 +55,7 @@ async def _run(skip_send: bool, dry_run: bool, resend_only: bool) -> None:
 
     if not skip_send:
         await telegram_agent.send_digest(digest)
-        await whatsapp_agent.send_digest(digest)
+        await gmail_agent.send_digest(digest)
 
     if not dry_run:
         _log_run(status="ok", item_count=len(digest.get("items", [])))
@@ -63,7 +63,7 @@ async def _run(skip_send: bool, dry_run: bool, resend_only: bool) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--skip-send", action="store_true")
+    parser.add_argument("--skip-send", action="store_true", help="Skip Telegram/Gmail delivery")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--resend-only", action="store_true")
     args = parser.parse_args()

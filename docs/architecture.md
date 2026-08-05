@@ -18,7 +18,7 @@ flowchart TD
     tutorial --> digest[agents/digest.py\nLLM rank + extras]
     digest --> commit["git commit data/*.json"]
     digest --> telegram[agents/telegram.py]
-    digest --> whatsapp[agents/whatsapp.py]
+    digest --> gmail[agents/gmail.py]
 
     commit --> repo[("GitHub repo\ndata/*.json")]
 
@@ -33,7 +33,7 @@ flowchart TD
     api -. "workflow_dispatch\n(manual-run.yml)" .-> GHA
     next -- "fetch NEXT_PUBLIC_API_BASE_URL" --> api
     telegram --> tg[("Telegram")]
-    whatsapp --> wa[("WhatsApp\nMeta Cloud API")]
+    gmail --> gm[("Gmail\nSMTP")]
 ```
 
 ## Why this shape
@@ -95,7 +95,7 @@ see `agents/trend.py`'s `MAX_AGE_HOURS`.
    `data/daily/{date}.json`, updates `data/history.json` (idempotent per
    date) and `data/logs.json` / `data/analytics.json`. The workflow's
    `commit-data` action commits and pushes.
-8. **Send**: `agents/telegram.py` and `agents/whatsapp.py` format and
+8. **Send**: `agents/telegram.py` and `agents/gmail.py` format and
    deliver (unless `--skip-send`).
 9. **Dashboard**: reads all of the above live from GitHub on each page
    load - see [api.md](api.md).
@@ -108,7 +108,7 @@ see `agents/trend.py`'s `MAX_AGE_HOURS`.
 └── workflows/        pipeline, manual-run, healthcheck, cleanup, ci
 agents/               one file per pipeline stage (see above)
 services/             rss, dedupe, llm (Grok client), storage, github_client,
-                       notify/ (Telegram + WhatsApp, behind one Protocol)
+                       notify/ (Telegram + Gmail, behind one Protocol)
 prompts/              system prompts, one per LLM-calling agent
 backend/              FastAPI app (dashboard's read/trigger API)
 api/index.py           Vercel entrypoint, re-exports backend.main:app

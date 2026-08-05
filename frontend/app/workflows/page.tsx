@@ -38,7 +38,7 @@ export default function WorkflowsPage() {
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <label className="flex items-center gap-1.5">
             <input type="checkbox" checked={skipSend} onChange={(e) => setSkipSend(e.target.checked)} />
-            Skip Telegram/WhatsApp send
+            Skip Telegram/Gmail send
           </label>
           <label className="flex items-center gap-1.5">
             <input type="checkbox" checked={dryRun} onChange={(e) => setDryRun(e.target.checked)} />

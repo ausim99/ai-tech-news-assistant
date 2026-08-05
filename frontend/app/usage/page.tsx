@@ -16,7 +16,7 @@ export default function UsagePage() {
 
       <p className="text-sm text-muted">
         Tracks pipeline run reliability from the last {analytics?.total_runs_logged ?? "…"} logged runs.
-        Per-provider API call/cost metering (Grok, Telegram, WhatsApp) isn&apos;t implemented yet.
+        Per-provider API call/cost metering (Grok, Telegram, Gmail) isn&apos;t implemented yet.
       </p>
 
       {loading && (

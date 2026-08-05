@@ -3,7 +3,7 @@ description: 'Install deps, run the daily pipeline script, commit resulting data
 
 inputs:
   skip-send:
-    description: 'Skip Telegram/WhatsApp delivery'
+    description: 'Skip Telegram/Gmail delivery'
     required: false
     default: 'false'
   dry-run:

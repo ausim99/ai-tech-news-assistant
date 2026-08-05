@@ -8,7 +8,7 @@ export default function AboutPage() {
           AI Tech News Assistant collects AI and technology news daily from ~20 curated sources,
           researches and fact-checks each story with an LLM, translates it into natural Bangla, adds a
           practical tutorial for the most important stories, and delivers a ranked digest to Telegram and
-          WhatsApp every morning at 06:00 (Asia/Dhaka).
+          Gmail every morning at 06:00 (Asia/Dhaka).
         </p>
         <p>This dashboard reads data straight from the GitHub repo - no separate database, no redeploy needed to see fresh data.</p>
       </div>

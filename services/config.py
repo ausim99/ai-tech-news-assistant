@@ -24,10 +24,10 @@ class Settings(BaseSettings):
     telegram_bot_token: str = ""
     telegram_chat_id: str = ""
 
-    # Meta WhatsApp Cloud API.
-    whatsapp_token: str = ""
-    whatsapp_phone_number_id: str = ""
-    whatsapp_to_number: str = ""
+    # Gmail SMTP (App Password auth).
+    gmail_address: str = ""
+    gmail_app_password: str = ""
+    gmail_to_address: str = ""
 
     @property
     def cors_origins(self) -> list[str]:

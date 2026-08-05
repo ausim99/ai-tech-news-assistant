@@ -34,8 +34,8 @@ curl http://localhost:8000/api/health
 ```
 
 Run the pipeline itself locally (needs `GROK_API_KEY`, `TELEGRAM_*`,
-`WHATSAPP_*` in `.env` - this will actually call the LLM and send real
-messages unless you pass flags):
+`GMAIL_*` in `.env` - this will actually call the LLM and send real
+messages/emails unless you pass flags):
 
 ```bash
 uv run python scripts/run_pipeline.py --dry-run          # no commit, no send

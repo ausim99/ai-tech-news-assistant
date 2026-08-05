@@ -6,7 +6,7 @@
 Collects the day's AI and tech news from ~20 curated sources, fact-checks
 and summarizes each story with an LLM, translates it into natural Bangla,
 writes a practical tutorial for the most important ones, ranks a daily
-digest, and delivers it to Telegram and WhatsApp every morning at 06:00
+digest, and delivers it to Telegram and Gmail every morning at 06:00
 (Asia/Dhaka). A Vercel dashboard shows today's digest, history, delivery
 status, and lets you trigger a run on demand.
 
@@ -21,7 +21,7 @@ flowchart LR
     C --> D[Translate\nto Bangla] --> E[Tutorials\ntop N] --> F[Rank digest\nLLM]
     F --> G[(commit\ndata/*.json)]
     F --> H[Telegram]
-    F --> I[WhatsApp]
+    F --> I[Gmail]
     G -.GitHub API.-> J[Dashboard\nVercel]
 ```
 
@@ -37,12 +37,12 @@ Full breakdown, design decisions, and repo layout: [docs/architecture.md](docs/a
 | Dashboard | Next.js 16 (App Router), TypeScript, Tailwind CSS v4, Recharts |
 | Automation | GitHub Actions (4 scheduled workflows + CI) |
 | Storage | JSON files committed to the repo - no database |
-| Delivery | Telegram Bot API, Meta WhatsApp Cloud API |
+| Delivery | Telegram Bot API, Gmail SMTP |
 
 ## Repo structure
 
 ```
-agents/        pipeline stages (trend, research, translator, tutorial, digest, telegram, whatsapp)
+agents/        pipeline stages (trend, research, translator, tutorial, digest, telegram, gmail)
 services/      RSS, dedupe, LLM client, storage, GitHub client, notify providers
 prompts/       system prompts for each LLM-calling agent
 backend/       FastAPI app powering the dashboard

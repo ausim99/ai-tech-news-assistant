@@ -12,9 +12,9 @@ Never commit any of these values - they're read only from `secrets.*` /
 | `GROK_API_KEY` | [console.x.ai](https://console.x.ai) -> API Keys -> Create key. Used by `services/llm.py` for research/translate/tutorial/digest. |
 | `TELEGRAM_BOT_TOKEN` | Message [@BotFather](https://t.me/BotFather) on Telegram -> `/newbot` -> follow prompts -> it gives you a token like `123456:ABC-DEF...`. |
 | `TELEGRAM_CHAT_ID` | Add your new bot to the target chat (or message it directly for a DM), then call `https://api.telegram.org/bot<TOKEN>/getUpdates` and read `message.chat.id` from the response. For a channel, it's usually negative (e.g. `-100123456789`). |
-| `WHATSAPP_TOKEN` | [Meta for Developers](https://developers.facebook.com) -> your app -> WhatsApp -> API Setup -> temporary or permanent access token. Permanent tokens need a System User in Business Manager. |
-| `WHATSAPP_PHONE_NUMBER_ID` | Same WhatsApp -> API Setup page, "Phone number ID" (not the phone number itself). |
-| `WHATSAPP_TO_NUMBER` | The recipient's full number in international format, no `+` or spaces (e.g. `8801xxxxxxxxx`). Must be a number added as a test recipient unless your WhatsApp Business app is out of development mode. |
+| `GMAIL_ADDRESS` | The Gmail address the digest sends from. Needs 2-Step Verification enabled on this account. |
+| `GMAIL_APP_PASSWORD` | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) -> generate a 16-character App Password (requires 2-Step Verification to be enabled first). Not your regular Gmail password. |
+| `GMAIL_TO_ADDRESS` | The recipient address the daily digest email gets sent to. |
 
 ## Variables (Repository variables tab) - optional, all have defaults
 

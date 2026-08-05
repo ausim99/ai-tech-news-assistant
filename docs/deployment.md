@@ -13,9 +13,9 @@ Already pushed: [github.com/ausim99/ai-tech-news-assistant](https://github.com/a
 | `GROK_API_KEY` | pipeline (research/translate/tutorial/digest) |
 | `TELEGRAM_BOT_TOKEN` | pipeline send, healthcheck |
 | `TELEGRAM_CHAT_ID` | pipeline send |
-| `WHATSAPP_TOKEN` | pipeline send, healthcheck |
-| `WHATSAPP_PHONE_NUMBER_ID` | pipeline send, healthcheck |
-| `WHATSAPP_TO_NUMBER` | pipeline send |
+| `GMAIL_ADDRESS` | pipeline send, healthcheck |
+| `GMAIL_APP_PASSWORD` | pipeline send, healthcheck |
+| `GMAIL_TO_ADDRESS` | pipeline send |
 
 ## 2. GitHub Variables (Settings -> Secrets and variables -> Actions -> Variables) - optional
 

@@ -4,7 +4,7 @@
 
 **A workflow run failed and I got a Telegram alert with a link.** Click the
 link (it's the exact run). Most failures are one of: a Grok API error
-(check `GROK_API_KEY` is set and has quota), a Telegram/WhatsApp send
+(check `GROK_API_KEY` is set and has quota), a Telegram/Gmail send
 failure (see below), or `git push` rejected because something else pushed
 to `main` in between (rare, given the `news-pipeline` concurrency group
 queues `pipeline.yml` and `manual-run.yml` against each other).
@@ -30,11 +30,12 @@ runners) more aggressively than residential networks. This is expected to
 be flaky; the pipeline degrades gracefully (logs a warning, continues with
 0 items from that source) rather than failing the run.
 
-**WhatsApp/Telegram send fails.** Telegram: check the bot token is still
-valid and the bot hasn't been removed from the target chat. WhatsApp: Meta
-access tokens expire (temporary tokens last 24h - you need a permanent
-System User token for production use), and test-mode WhatsApp Business apps
-only deliver to explicitly allow-listed recipient numbers.
+**Gmail/Telegram send fails.** Telegram: check the bot token is still
+valid and the bot hasn't been removed from the target chat. Gmail: App
+Passwords require 2-Step Verification enabled on the account, and stop
+working if the account's password or 2FA settings change - regenerate at
+[myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+if `smtplib.SMTPAuthenticationError` shows up in the logs.
 
 ## Dashboard / backend
 

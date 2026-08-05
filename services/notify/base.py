@@ -1,8 +1,9 @@
 """Shared contract + helpers for outbound delivery channels.
 
-Callers depend on this Protocol, not on Telegram/WhatsApp specifics, so a new
-channel (or a different WhatsApp provider) is a drop-in module with a `send`
-function - nothing else in the codebase changes.
+Callers depend on this Protocol, not on a specific channel's API, so adding
+or swapping a channel is a drop-in module with a `send` function - nothing
+else in the codebase changes. `chunk_text` is used by channels with a
+message-length limit (Telegram); Gmail has no such limit so it doesn't need it.
 """
 
 from typing import Protocol

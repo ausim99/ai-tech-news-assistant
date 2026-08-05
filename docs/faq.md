@@ -17,20 +17,22 @@ workflow file (`.github/workflows/pipeline.yml`,
 own cron is what actually controls timing). GitHub Actions cron is always
 UTC.
 
-**Is WhatsApp required?** No - `agents/whatsapp.py` and
-`services/notify/whatsapp.py` are called unless `--skip-send`, but nothing
-else depends on WhatsApp succeeding. If you don't have Meta Cloud API
-credentials, leave the `WHATSAPP_*` secrets unset; the send will fail and
-log a warning-level error for that channel, but Telegram delivery and
-everything else still completes. To fully disable it, remove the
-`await whatsapp_agent.send_digest(digest)` line in
-`scripts/run_pipeline.py`.
+**Is Gmail required?** Not architecturally, but note that delivery failures
+aren't swallowed - `agents/telegram.py` and `agents/gmail.py` both propagate
+send errors uncaught, so a missing/invalid `GMAIL_*` secret fails the whole
+run (by design: silent delivery failure is worse than a visible one). To
+actually make it optional, either pass `--skip-send` to skip both channels,
+or wrap the `await gmail_agent.send_digest(digest)` call in
+`scripts/run_pipeline.py` in a try/except if you want Gmail failures
+specifically to be non-fatal.
 
-**Can I use a different WhatsApp provider (Twilio, etc.)?**
-`services/notify/whatsapp.py` implements the `NotifyProvider` protocol
-(`services/notify/base.py`) - `async def send(text: str) -> None`. Swap the
-module's internals for a different provider's API call and nothing else in
-the codebase changes; `agents/whatsapp.py` only calls `send()`.
+**Can I use a different email/SMTP provider?**
+`services/notify/gmail.py` isn't behind the `NotifyProvider` protocol
+(`services/notify/base.py`) as-is, since email's subject+body shape doesn't
+match the single-string `send(text)` contract Telegram uses - but the split
+is clean: swap `services/notify/gmail.py`'s internals (SMTP host/port/auth)
+for another provider and nothing in `agents/gmail.py` or
+`scripts/run_pipeline.py` changes.
 
 **Why isn't Settings/prompt-editing writable from the dashboard?** It's
 read-only by design for now - making it writable means committing changes
@@ -41,7 +43,7 @@ handling) not yet built rather than something faked to look complete.
 
 **What does "API Usage" actually track?** Pipeline run reliability
 (`data/analytics.json`: runs logged, success rate, last run) - not
-per-provider (Grok/Telegram/WhatsApp) API call counts or cost. That metering
+per-provider (Grok/Telegram/Gmail) API call counts or cost. That metering
 isn't implemented; the page says so rather than showing invented numbers.
 
 **Why 96 hours for "recent," not 24?** See

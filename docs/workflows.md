@@ -17,7 +17,7 @@ on), then posts a Telegram alert via `notify-failure` if any step failed.
 
 | Input | Default | Effect |
 |---|---|---|
-| `skip_send` | `false` | Runs the full pipeline but doesn't call Telegram/WhatsApp |
+| `skip_send` | `false` | Runs the full pipeline but doesn't call Telegram/Gmail |
 | `dry_run` | `false` | Doesn't write `data/*.json` or commit - pure test run |
 | `resend_only` | `false` | Skips collect/research/translate/tutorial/digest entirely; re-sends today's *already-generated* digest |
 
@@ -30,11 +30,11 @@ Same concurrency group as `pipeline.yml`. This is what the dashboard's
 **Trigger**: cron `0 * * * *` (hourly) + `workflow_dispatch`.
 **Permissions**: `contents: read` (doesn't write anything).
 
-Runs `scripts/healthcheck.py`, which checks RSS source reachability, and
-`getMe`/phone-number-lookup calls to confirm the Telegram and WhatsApp
-credentials are still valid. Exits non-zero (triggering the failure alert)
-only if Telegram or WhatsApp fails, or more than half of RSS sources are
-unreachable - a single dead feed doesn't page anyone.
+Runs `scripts/healthcheck.py`, which checks RSS source reachability, a
+`getMe` call to confirm the Telegram bot token is valid, and an SMTP login
+to confirm the Gmail App Password is valid. Exits non-zero (triggering the
+failure alert) only if Telegram or Gmail fails, or more than half of RSS
+sources are unreachable - a single dead feed doesn't page anyone.
 
 ## `.github/workflows/cleanup.yml`
 
