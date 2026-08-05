@@ -1,0 +1,35 @@
+name: 'Run News Pipeline'
+description: 'Install deps, run the daily pipeline script, commit resulting data'
+
+inputs:
+  skip-send:
+    description: 'Skip Telegram/WhatsApp delivery'
+    required: false
+    default: 'false'
+  dry-run:
+    description: 'Run without committing or sending anything'
+    required: false
+    default: 'false'
+  resend-only:
+    description: 'Re-send the existing digest for today instead of regenerating it'
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup-env
+
+    - name: Run pipeline
+      shell: bash
+      run: |
+        ARGS=""
+        if [ "${{ inputs.skip-send }}" = "true" ]; then ARGS="$ARGS --skip-send"; fi
+        if [ "${{ inputs.dry-run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+        if [ "${{ inputs.resend-only }}" = "true" ]; then ARGS="$ARGS --resend-only"; fi
+        uv run python scripts/run_pipeline.py $ARGS
+
+    - uses: ./.github/actions/commit-data
+      if: inputs.dry-run != 'true'
+      with:
+        message: 'chore: update news data'

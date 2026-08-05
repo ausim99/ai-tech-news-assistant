@@ -1,0 +1,32 @@
+{
+  "max_tutorial_items": 25,
+  "schedule": {
+    "pipeline": "0 0 * * * (00:00 UTC = 06:00 Asia/Dhaka)",
+    "healthcheck": "0 * * * * (hourly)",
+    "cleanup": "0 3 * * 0 (Sunday 03:00 UTC)"
+  },
+  "sources": [
+    { "name": "OpenAI", "rss_url": "https://openai.com/news/rss.xml", "category": "AI" },
+    { "name": "Anthropic", "rss_url": null, "category": "AI", "status": "no_official_rss" },
+    { "name": "Google AI", "rss_url": "https://research.google/blog/rss", "category": "AI" },
+    { "name": "Microsoft AI", "rss_url": null, "category": "AI", "status": "no_official_rss", "note": "blogs.microsoft.com/ai/feed/ returns 410 Gone as of 2026-08." },
+    { "name": "Meta AI", "rss_url": null, "category": "AI", "status": "no_official_rss" },
+    { "name": "xAI", "rss_url": null, "category": "AI", "status": "no_official_rss" },
+    { "name": "NVIDIA", "rss_url": "https://blogs.nvidia.com/feed/", "category": "AI" },
+    { "name": "Hugging Face", "rss_url": "https://huggingface.co/blog/feed.xml", "category": "AI" },
+    { "name": "GitHub Blog", "rss_url": "https://github.blog/feed/", "category": "Tech" },
+    { "name": "Google Developers Blog", "rss_url": "https://feeds.feedburner.com/GDBcode", "category": "Tech", "status": "unverified_legacy_feedburner" },
+    { "name": "DeepMind", "rss_url": "https://deepmind.google/blog/rss.xml", "category": "AI" },
+    { "name": "AWS AI", "rss_url": "https://aws.amazon.com/blogs/machine-learning/feed/", "category": "AI" },
+    { "name": "Azure AI", "rss_url": "https://azure.microsoft.com/en-us/blog/feed/", "category": "AI", "status": "general_azure_blog_not_ai_specific" },
+    { "name": "Product Hunt", "rss_url": "https://www.producthunt.com/feed", "category": "Tech" },
+    { "name": "Hacker News", "rss_url": "https://hnrss.org/frontpage", "category": "Tech" },
+    { "name": "TechCrunch", "rss_url": "https://techcrunch.com/feed/", "category": "Tech" },
+    { "name": "The Verge", "rss_url": "https://www.theverge.com/rss/index.xml", "category": "Tech" },
+    { "name": "Ars Technica", "rss_url": "https://feeds.arstechnica.com/arstechnica/index", "category": "Tech" },
+    { "name": "MIT Technology Review", "rss_url": "https://www.technologyreview.com/feed/", "category": "Tech" },
+    { "name": "Reddit r/artificial", "rss_url": "https://www.reddit.com/r/artificial/.rss", "category": "AI" },
+    { "name": "YouTube", "rss_url": null, "category": "AI", "status": "needs_channel_id", "note": "Set rss_url to https://www.youtube.com/feeds/videos.xml?channel_id=<ID> for a specific channel." },
+    { "name": "Google News (AI)", "rss_url": "https://news.google.com/rss/search?q=artificial%20intelligence%20when:1d&hl=en-US&gl=US&ceid=US:en", "category": "AI" }
+  ]
+}

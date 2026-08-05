@@ -1,0 +1,32 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      WHATSAPP_TOKEN: ${{ secrets.WHATSAPP_TOKEN }}
+      WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-env
+
+      - name: Run health check
+        run: uv run python scripts/healthcheck.py
+
+      - uses: ./.github/actions/notify-failure
+        if: failure()
+        with:
+          message: "Health check failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

@@ -1,0 +1,16 @@
+name: 'Notify Failure'
+description: 'Send a Telegram alert when a workflow step fails'
+
+inputs:
+  message:
+    description: 'Alert message text'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+          -d chat_id="${TELEGRAM_CHAT_ID}" \
+          -d text="⚠️ ${{ inputs.message }}" > /dev/null

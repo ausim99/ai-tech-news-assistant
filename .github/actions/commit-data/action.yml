@@ -1,0 +1,23 @@
+name: 'Commit Data Changes'
+description: 'Commit and push changes under data/ if any exist'
+
+inputs:
+  message:
+    description: 'Commit message'
+    required: false
+    default: 'chore: update data'
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add data/
+        if git diff --cached --quiet; then
+          echo "No data changes to commit"
+        else
+          git commit -m "${{ inputs.message }}"
+          git push
+        fi

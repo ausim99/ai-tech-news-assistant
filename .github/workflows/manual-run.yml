@@ -1,0 +1,49 @@
+name: Manual News Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_send:
+        description: 'Skip Telegram/WhatsApp delivery'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Run without committing data or sending anything'
+        type: boolean
+        default: false
+      resend_only:
+        description: 'Re-send existing digest for today instead of regenerating it'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: news-pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      WHATSAPP_TOKEN: ${{ secrets.WHATSAPP_TOKEN }}
+      WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
+      WHATSAPP_TO_NUMBER: ${{ secrets.WHATSAPP_TO_NUMBER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/run-pipeline
+        with:
+          skip-send: ${{ inputs.skip_send }}
+          dry-run: ${{ inputs.dry_run }}
+          resend-only: ${{ inputs.resend_only }}
+
+      - uses: ./.github/actions/notify-failure
+        if: failure()
+        with:
+          message: "Manual pipeline run failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
