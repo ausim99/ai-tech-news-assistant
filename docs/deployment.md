@@ -2,18 +2,9 @@
 
 Two Vercel projects from one GitHub repo, plus GitHub Actions running the pipeline. No local server ever needs to run.
 
-## 0. Push the repo to GitHub
+## 0. Repo
 
-This project isn't a git repo yet. Locally:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/<you>/<your-repo>.git
-git branch -M main
-git push -u origin main
-```
+Already pushed: [github.com/ausim99/ai-tech-news-assistant](https://github.com/ausim99/ai-tech-news-assistant) (branch `main`).
 
 ## 1. GitHub Secrets (Settings -> Secrets and variables -> Actions -> Secrets)
 
@@ -42,7 +33,7 @@ Vercel dashboard -> Add New Project -> import this repo.
 
 | Name | Value |
 |---|---|
-| `GITHUB_REPO` | `<you>/<your-repo>` |
+| `GITHUB_REPO` | `ausim99/ai-tech-news-assistant` |
 | `GITHUB_TOKEN` | a fine-grained GitHub PAT scoped to this repo only, with **Contents: Read**, **Actions: Read and write** |
 | `GITHUB_BRANCH` | `main` |
 | `ALLOWED_ORIGINS` | `*` for the first deploy - tighten in step 5 once the frontend URL is known |

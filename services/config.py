@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     # Repo the dashboard reads data from and dispatches workflows against.
-    github_repo: str = "owner/ai-tech-news-assistant"
+    github_repo: str = "ausim99/ai-tech-news-assistant"
     github_token: str = ""
     github_branch: str = "main"
 
