@@ -18,6 +18,7 @@ jobs:
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       WHATSAPP_TOKEN: ${{ secrets.WHATSAPP_TOKEN }}
       WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
 
