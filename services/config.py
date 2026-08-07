@@ -20,6 +20,14 @@ class Settings(BaseSettings):
     grok_api_key: str = ""
     grok_model: str = "grok-4"
 
+    # DeepSeek (OpenAI-compatible), fallback if Grok fails.
+    deepseek_api_key: str = ""
+    deepseek_model: str = "deepseek-chat"
+
+    # Gemini (via its OpenAI-compatible endpoint), fallback if the above fail.
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
+
     # Telegram Bot API.
     telegram_bot_token: str = ""
     telegram_chat_id: str = ""
