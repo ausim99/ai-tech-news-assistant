@@ -16,8 +16,18 @@ def _providers() -> list[tuple[str, str, str, str]]:
     """(name, url, api_key, model) for each provider with a key set, in fallback order."""
     settings = get_settings()
     candidates = [
-        ("grok", "https://api.x.ai/v1/chat/completions", settings.grok_api_key, settings.grok_model),
-        ("deepseek", "https://api.deepseek.com/chat/completions", settings.deepseek_api_key, settings.deepseek_model),
+        (
+            "grok",
+            "https://api.x.ai/v1/chat/completions",
+            settings.grok_api_key,
+            settings.grok_model,
+        ),
+        (
+            "deepseek",
+            "https://api.deepseek.com/chat/completions",
+            settings.deepseek_api_key,
+            settings.deepseek_model,
+        ),
         (
             "gemini",
             "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
@@ -52,7 +62,9 @@ async def _call(url: str, api_key: str, model: str, system: str, user: str, json
 async def complete(system: str, user: str, *, json_mode: bool = False, max_retries: int = 2) -> str:
     providers = _providers()
     if not providers:
-        raise LLMError("No LLM provider configured (set GROK_API_KEY, DEEPSEEK_API_KEY, or GEMINI_API_KEY)")
+        raise LLMError(
+            "No LLM provider configured (set GROK_API_KEY, DEEPSEEK_API_KEY, or GEMINI_API_KEY)"
+        )
 
     last_error: Exception | None = None
     for name, url, api_key, model in providers:
