@@ -41,10 +41,6 @@ class Settings(BaseSettings):
     linkedin_access_token: str = ""
     linkedin_author_urn: str = ""  # e.g. urn:li:person:XXXX or urn:li:organization:XXXX
 
-    # Facebook Page Graph API - optional, skipped if unset.
-    facebook_page_id: str = ""
-    facebook_page_access_token: str = ""
-
     @property
     def cors_origins(self) -> list[str]:
         return [o.strip() for o in self.allowed_origins.split(",") if o.strip()]
