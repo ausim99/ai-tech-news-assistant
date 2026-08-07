@@ -62,6 +62,12 @@ async def complete(system: str, user: str, *, json_mode: bool = False, max_retri
             except (httpx.HTTPError, KeyError, IndexError) as e:
                 last_error = e
                 logger.warning(f"{name} call failed (attempt {attempt + 1}/{max_retries + 1}): {e}")
-        logger.warning(f"{name} exhausted retries, falling back to next provider")
+                # 4xx (other than rate-limiting) is permanent - e.g. bad key, no
+                # credits. Retrying the same request won't fix it, so stop
+                # burning time/quota and fall through to the next provider.
+                status = getattr(getattr(e, "response", None), "status_code", None)
+                if status and 400 <= status < 500 and status != 429:
+                    break
+        logger.warning(f"{name} unavailable, falling back to next provider")
 
     raise LLMError(f"All LLM providers failed: {last_error}")
