@@ -24,16 +24,17 @@ class GmailSendError(RuntimeError):
 
 def _send_sync(subject: str, html_body: str) -> None:
     settings = get_settings()
+    to_addrs = [a.strip() for a in settings.gmail_to_address.split(",") if a.strip()]
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
     message["From"] = settings.gmail_address
-    message["To"] = settings.gmail_to_address
+    message["To"] = ", ".join(to_addrs)
     message.attach(MIMEText(html_body, "html"))
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
         server.login(settings.gmail_address, settings.gmail_app_password)
-        server.sendmail(settings.gmail_address, settings.gmail_to_address, message.as_string())
+        server.sendmail(settings.gmail_address, to_addrs, message.as_string())
 
 
 async def send(subject: str, html_body: str) -> None:
