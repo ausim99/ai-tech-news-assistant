@@ -1,6 +1,6 @@
 """Async client for chat-completion LLM providers, tried in order until one
 works. All three speak the OpenAI-compatible chat completions shape:
-Grok (primary) -> DeepSeek -> Gemini (via its OpenAI-compat endpoint)."""
+DeepSeek (primary) -> Gemini (via its OpenAI-compat endpoint) -> Grok."""
 
 import httpx
 
@@ -17,12 +17,6 @@ def _providers() -> list[tuple[str, str, str, str]]:
     settings = get_settings()
     candidates = [
         (
-            "grok",
-            "https://api.x.ai/v1/chat/completions",
-            settings.grok_api_key,
-            settings.grok_model,
-        ),
-        (
             "deepseek",
             "https://api.deepseek.com/chat/completions",
             settings.deepseek_api_key,
@@ -33,6 +27,12 @@ def _providers() -> list[tuple[str, str, str, str]]:
             "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
             settings.gemini_api_key,
             settings.gemini_model,
+        ),
+        (
+            "grok",
+            "https://api.x.ai/v1/chat/completions",
+            settings.grok_api_key,
+            settings.grok_model,
         ),
     ]
     return [c for c in candidates if c[2]]
