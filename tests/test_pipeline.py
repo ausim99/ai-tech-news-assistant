@@ -1,6 +1,7 @@
 from datetime import UTC, datetime, timedelta
 
 from agents.digest import _fallback_ranking
+from agents.social import format_post
 from agents.telegram import _escape
 from agents.trend import _is_recent
 from services.dedupe import dedupe
@@ -56,3 +57,25 @@ def test_is_recent_rejects_old_items() -> None:
 def test_is_recent_accepts_fresh_items() -> None:
     fresh = (datetime.now(UTC) - timedelta(hours=1)).isoformat()
     assert _is_recent({"published_iso": fresh}) is True
+
+
+def test_format_post_includes_date_links_and_hashtags() -> None:
+    digest = {
+        "date": "2026-08-07",
+        "top_ai_news": [
+            {"title": "GPT-5.6 ships", "title_bn": "GPT-5.6 এলো", "link": "https://a.com"}
+        ],
+        "top_tech_news": [{"title": "New GPU", "link": "https://b.com"}],
+    }
+    post = format_post(digest)
+    assert "2026-08-07" in post
+    assert "https://a.com" in post
+    assert "https://b.com" in post
+    assert "#AI" in post
+
+
+def test_format_post_caps_item_count() -> None:
+    items = [{"title": f"item {i}", "link": f"https://x.com/{i}"} for i in range(10)]
+    digest = {"date": "2026-08-07", "top_ai_news": items, "top_tech_news": []}
+    post = format_post(digest)
+    assert sum(f"https://x.com/{i}" in post for i in range(10)) == 6

@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from agents import digest as digest_agent
 from agents import gmail as gmail_agent
 from agents import research as research_agent
+from agents import social as social_agent
 from agents import telegram as telegram_agent
 from agents import translator as translator_agent
 from agents import trend as trend_agent
@@ -56,6 +57,7 @@ async def _run(skip_send: bool, dry_run: bool, resend_only: bool) -> None:
     if not skip_send:
         await telegram_agent.send_digest(digest)
         await gmail_agent.send_digest(digest)
+        await social_agent.send_post(digest)
 
     if not dry_run:
         _log_run(status="ok", item_count=len(digest.get("items", [])))
