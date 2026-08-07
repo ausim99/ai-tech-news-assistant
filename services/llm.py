@@ -32,6 +32,8 @@ async def complete(system: str, user: str, *, json_mode: bool = False, max_retri
         try:
             async with httpx.AsyncClient(timeout=60) as client:
                 resp = await client.post(GROK_API_URL, json=payload, headers=headers)
+            if resp.is_error:
+                logger.warning(f"grok error body: {resp.text}")
             resp.raise_for_status()
             data = resp.json()
             return data["choices"][0]["message"]["content"]
