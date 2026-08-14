@@ -11,7 +11,7 @@ import httpx
 from services.config import get_settings
 
 LINKEDIN_API_URL = "https://api.linkedin.com/rest/posts"
-LINKEDIN_VERSION = "202401"
+LINKEDIN_VERSION = "202607"
 
 
 class LinkedInSendError(RuntimeError):
