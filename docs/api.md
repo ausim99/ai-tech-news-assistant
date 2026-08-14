@@ -39,7 +39,7 @@ Items from *today's* digest matching `category` (case-insensitive), e.g.
 
 ## `GET /api/workflows`
 
-Recent runs (last 5 each) for all 4 pipeline workflows, keyed by filename:
+Recent runs (last 5 each) for all 5 pipeline workflows, keyed by filename:
 
 ```json
 {

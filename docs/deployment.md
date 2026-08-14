@@ -71,7 +71,7 @@ Redeploy the backend (or just trigger a redeploy from the dashboard - no code ch
 
 ## 6. Enable the pipeline
 
-The 4 workflows in `.github/workflows/` already run on their schedules once the repo is pushed - no extra step. To confirm end-to-end before waiting for 06:00 Asia/Dhaka:
+The 5 workflows in `.github/workflows/` already run on their schedules once the repo is pushed - no extra step. To confirm end-to-end before waiting for 06:00 Asia/Dhaka:
 
 - GitHub -> Actions -> "Manual News Run" -> Run workflow (optionally check `dry_run` for a no-commit test pass first).
 - Or from the dashboard: Workflows page -> "Run pipeline".

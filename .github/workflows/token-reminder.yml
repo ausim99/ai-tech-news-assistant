@@ -1,0 +1,40 @@
+name: Token Expiry Reminder
+
+# 00:30 UTC, right after the daily pipeline (00:00 UTC = 06:00 Asia/Dhaka).
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+      LINKEDIN_AUTHOR_URN: ${{ secrets.LINKEDIN_AUTHOR_URN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      GMAIL_TO_ADDRESS: ${{ secrets.GMAIL_TO_ADDRESS }}
+      PYTHONPATH: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-env
+
+      - name: Check token and notify
+        run: uv run python scripts/notify_token_expiry.py
+
+      - uses: ./.github/actions/commit-data
+        with:
+          message: 'chore: update token reminder state'
+
+      - uses: ./.github/actions/notify-failure
+        if: failure()
+        with:
+          message: "Token reminder failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

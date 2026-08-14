@@ -46,6 +46,19 @@ Runs `scripts/cleanup.py --retention-days ${{ vars.DATA_RETENTION_DAYS }}`
 `data/history.json`'s lightweight per-day index is kept forever - only the
 full digest payloads get rotated.
 
+## `.github/workflows/token-reminder.yml`
+
+**Trigger**: cron `30 0 * * *` (00:30 UTC, right after the daily pipeline) +
+`workflow_dispatch`.
+**Permissions**: `contents: write` (persists `data/linkedin_token.json`).
+
+Runs `scripts/notify_token_expiry.py`, which tracks the LinkedIn access
+token's age (its ~60-day lifetime has no refresh token). Once the token is
+inside its final 7 days it sends a Telegram + Gmail reminder **every day**
+until the token is rotated - rotation is detected via a SHA-256 hash of the
+token value stored in `data/linkedin_token.json`. The `commit-data` action
+persists the state so the daily reminder doesn't re-fire every run.
+
 ## `.github/workflows/ci.yml`
 
 **Trigger**: push or PR against `main`. Two independent jobs:

@@ -7,7 +7,13 @@ from services.github_client import GitHubError, list_workflow_runs, trigger_work
 
 router = APIRouter(tags=["workflows"])
 
-WORKFLOW_FILES = ["pipeline.yml", "manual-run.yml", "healthcheck.yml", "cleanup.yml"]
+WORKFLOW_FILES = [
+    "pipeline.yml",
+    "manual-run.yml",
+    "healthcheck.yml",
+    "cleanup.yml",
+    "token-reminder.yml",
+]
 
 
 class RunRequest(BaseModel):

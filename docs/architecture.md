@@ -104,8 +104,8 @@ see `agents/trend.py`'s `MAX_AGE_HOURS`.
 
 ```
 .github/
-├── actions/          composite actions shared by all 4 workflows
-└── workflows/        pipeline, manual-run, healthcheck, cleanup, ci
+├── actions/          composite actions shared by all 5 workflows
+└── workflows/        pipeline, manual-run, healthcheck, cleanup, token-reminder, ci
 agents/               one file per pipeline stage (see above)
 services/             rss, dedupe, llm (Grok client), storage, github_client,
                        notify/ (Telegram + Gmail, behind one Protocol)
@@ -113,8 +113,8 @@ prompts/              system prompts, one per LLM-calling agent
 backend/              FastAPI app (dashboard's read/trigger API)
 api/index.py           Vercel entrypoint, re-exports backend.main:app
 frontend/             Next.js dashboard (10 pages, see docs/api.md for what feeds them)
-scripts/              run_pipeline.py, healthcheck.py, cleanup.py - the 3 entrypoints
-                       GitHub Actions actually invoke
+scripts/              run_pipeline.py, healthcheck.py, cleanup.py, notify_token_expiry.py
+                       - the entrypoints GitHub Actions actually invoke
 data/                 config.json (sources/schedule) + daily/*.json + history/logs/analytics
 tests/                pytest - backend routes + pure pipeline logic
 docs/                 this file, plus deployment/installation/secrets/workflows/api/troubleshooting/faq

@@ -15,6 +15,14 @@ Never commit any of these values - they're read only from `secrets.*` /
 | `GMAIL_ADDRESS` | The Gmail address the digest sends from. Needs 2-Step Verification enabled on this account. |
 | `GMAIL_APP_PASSWORD` | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) -> generate a 16-character App Password (requires 2-Step Verification to be enabled first). Not your regular Gmail password. |
 | `GMAIL_TO_ADDRESS` | The recipient address the daily digest email gets sent to. |
+| `LINKEDIN_ACCESS_TOKEN` | From a [LinkedIn developer app](https://www.linkedin.com/developers/apps) -> "Request access token" (member auth, requires the `w_member_social` scope for posting). Optional - LinkedIn posting is skipped if unset. |
+| `LINKEDIN_AUTHOR_URN` | The `id` value from the token's profile lookup, e.g. `urn:li:person:XXXX` (personal) or `urn:li:organization:XXXX` (company page). Set only if posting to LinkedIn. |
+
+> **LinkedIn token expiry**: the access token lives ~60 days and Standard
+> products don't issue a refresh token, so it must be rotated by hand. The
+> `token-reminder.yml` workflow tracks its age and pings you on Telegram +
+> Gmail every day once it's within 7 days of expiry - just re-auth and update
+> `LINKEDIN_ACCESS_TOKEN` (and `LINKEDIN_AUTHOR_URN` if it changed).
 
 ## Variables (Repository variables tab) - optional, all have defaults
 

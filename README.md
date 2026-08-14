@@ -35,7 +35,7 @@ Full breakdown, design decisions, and repo layout: [docs/architecture.md](docs/a
 | LLM | xAI Grok (`services/llm.py`) |
 | Backend API | FastAPI, deployed to Vercel as a Python Function |
 | Dashboard | Next.js 16 (App Router), TypeScript, Tailwind CSS v4, Recharts |
-| Automation | GitHub Actions (4 scheduled workflows + CI) |
+| Automation | GitHub Actions (5 scheduled workflows + CI) |
 | Storage | JSON files committed to the repo - no database |
 | Delivery | Telegram Bot API, Gmail SMTP |
 
