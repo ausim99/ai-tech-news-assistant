@@ -108,5 +108,10 @@
     "date": "2026-08-28",
     "top_ai_count": 2,
     "top_tech_count": 0
+  },
+  {
+    "date": "2026-08-29",
+    "top_ai_count": 10,
+    "top_tech_count": 5
   }
 ]
